@@ -1,0 +1,60 @@
+.outerContainer {
+	width: 100%;
+	padding: 2rem;
+	display: flex;
+}
+
+.innerContainer {
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.error {
+	color: #e00;
+}
+
+.urlContainer {
+	display: flex;
+	align-items: center;
+}
+
+.urlContainer input {
+	width: 400px;
+}
+
+.removeButton {
+	padding: 2px 7px 0px 7px;
+	border-color: #e00;
+	color: #e00;
+}
+
+.removeButton:hover {
+	background-color: #e00;
+}
+
+.removeButton:disabled,
+.removeButton[disabled] {
+	background-color: initial;
+}
+
+.removeButton::after {
+	content: '\00d7';
+	font-size: 25px;
+}
+
+.actionsContainer {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.addButton {
+	font-size: 25px;
+	padding: 2px 7px 0px 7px;
+}
+
+.song {
+	margin-bottom: 0;
+}
