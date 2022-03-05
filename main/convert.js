@@ -16,23 +16,22 @@ ipcMain.handle('convert', async (event, urls) => {
 	async function download(url, downloadPath) {
 		const info = await ytdl.getInfo(url)
 
-		return new Promise((resolve, reject) => {
+		return new Promise(async (resolve, reject) => {
 			const stream = ytdl(info.videoDetails.videoId, {
 				quality: 'highestaudio',
 			})
 
 			stream.on('progress', (_, downloaded, total) => {
-				event.sender.send('convertProgress', {
+				event.sender.send('progress', {
 					title,
 					videoId: info.videoDetails.videoId,
 					percents: Math.floor((downloaded / total) * 100),
 				})
 			})
 
-			const title = info.videoDetails.title
-				.trim()
-				.replaceAll('\n', '')
-				.replaceAll('|', '')
+			const title = await import('filenamify').then((filenamify) =>
+				filenamify.default(info.videoDetails.title.trim(), { replacement: ' ' })
+			)
 
 			const filePath = path.join(downloadPath, `${title}.mp3`)
 
@@ -59,7 +58,7 @@ ipcMain.handle('convert', async (event, urls) => {
 
 		shell.showItemInFolder(downloadPath)
 	} catch (error) {
-		event.sender.send('convertError', error.message)
+		event.sender.send('error', error.message)
 
 		// Download folder cleanup on error
 		rm(downloadPath, { recursive: true, force: true }).catch(() => {})

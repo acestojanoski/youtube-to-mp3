@@ -1,7 +1,13 @@
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
 
-const isDevelopment = process.env.NODE_ENV === 'development'
+const isDevelopment = !app.isPackaged
+
+if (isDevelopment) {
+	try {
+		require('electron-reloader')(module)
+	} catch {}
+}
 
 /** @type {import('electron').BrowserWindow} */
 let mainWindow = null
@@ -15,8 +21,7 @@ function createWindow() {
 		resizable: false,
 		maximizable: false,
 		webPreferences: {
-			nodeIntegration: true,
-			contextIsolation: false,
+			preload: path.join(__dirname, 'preload.js'),
 			devTools: isDevelopment,
 		},
 	}

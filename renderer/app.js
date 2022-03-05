@@ -6,7 +6,10 @@ import { v4 as uuidv4 } from 'uuid'
 import css from './app.module.css'
 import { dedupe } from './utils'
 
-const { ipcRenderer } = window.require('electron')
+/**
+ * @type {import('../main/preload').ConvertAPI}
+ */
+const convertAPI = window.convertAPI
 
 const initialUrls = [{ id: uuidv4(), value: '' }]
 
@@ -18,7 +21,7 @@ function App() {
 
 	// Handle progress and errors sent from the main process
 	useEffect(() => {
-		ipcRenderer.on('convertProgress', (_, data) => {
+		convertAPI.on('progress', (data) => {
 			setProgress((previousProgress) => {
 				const nextProgress = [...previousProgress]
 				const index = nextProgress.findIndex(
@@ -35,7 +38,7 @@ function App() {
 			})
 		})
 
-		ipcRenderer.on('convertError', (_, error) => setError(error))
+		convertAPI.on('error', (error) => setError(error))
 	}, [])
 
 	/**
@@ -89,7 +92,7 @@ function App() {
 		event.preventDefault()
 
 		setLoading(true)
-		ipcRenderer.invoke('convert', dedupe(urls.map((item) => item.value)))
+		convertAPI.invoke(dedupe(urls.map((item) => item.value)))
 	}
 
 	function handleReset() {
@@ -135,9 +138,15 @@ function App() {
 				<div className={css.innerContainer}>
 					{allDone && resetButton}
 					{progress.map((progress) => (
-						<p className={css.song} key={progress.videoId}>
-							{progress.title} ..... {progress.percents}%
-						</p>
+						<div className={css.song} key={progress.videoId}>
+							<span>{progress.title}</span> <span>{progress.percents}%</span>
+							<div
+								className={css.progress}
+								style={{
+									width: `${progress.percents}%`,
+								}}
+							/>
+						</div>
 					))}
 				</div>
 			</div>

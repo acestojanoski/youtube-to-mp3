@@ -1,16 +1,16 @@
-const path = require("path");
-let HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 /** @type {import('webpack').Configuration} */
 module.exports = {
-	entry: "./renderer/app.js",
-	mode: "production",
+	entry: './renderer/app.js',
+	mode: 'production',
 	output: {
-		path: path.resolve("dist"),
-		filename: "bundle.js",
+		path: path.resolve('dist'),
+		filename: 'bundle.js',
 	},
 	resolve: {
-		extensions: [".js", ".jsx"],
+		extensions: ['.js', '.jsx'],
 	},
 	module: {
 		rules: [
@@ -18,21 +18,21 @@ module.exports = {
 				test: /\.(js|jsx)$/,
 				exclude: /node_modules/,
 				use: {
-					loader: "babel-loader",
+					loader: 'babel-loader',
 				},
 			},
 			{
 				test: /\.(scss|css)$/,
 				exclude: /node_modules/,
-				use: ["style-loader", "css-loader"],
+				use: ['style-loader', 'css-loader'],
 			},
 		],
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
-			title: "YouTube To MP3",
-			filename: "./index.html",
-			template: "./renderer/index.html",
+			title: 'YouTube To MP3',
+			filename: './index.html',
+			template: './renderer/index.html',
 		}),
 	],
-};
+}
