@@ -1,4 +1,4 @@
-<h1 style="text-align: center;">Youtube to mp3</h1>
+# Youtube to mp3
 
 ![Demo](./media/demo.gif?style=demo)
 
