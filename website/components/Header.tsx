@@ -12,6 +12,11 @@ const Header: FunctionComponent = () => {
 				<Link href="#disclaimer" passHref>
 					<a className="nav-item">Disclaimer</a>
 				</Link>
+				<Link href="https://github.com/acestojanoski/youtube-to-mp3" passHref>
+					<a target="_blank" className="nav-item">
+						GitHub
+					</a>
+				</Link>
 			</nav>
 			<style jsx>{`
 				header {

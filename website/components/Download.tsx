@@ -43,7 +43,7 @@ const Download: FunctionComponent<DownloadProps> = ({ latestRelease }) => {
 						<td className="center">
 							<DownloadLink
 								tagName={latestRelease?.tag_name}
-								fileName="Youtube to mp3-win32-x64.zip"
+								fileName="Youtube.to.mp3-win32-x64.zip"
 							/>
 						</td>
 					</tr>

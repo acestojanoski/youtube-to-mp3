@@ -19,6 +19,7 @@ export const getStaticProps: GetStaticProps = async () => {
 				latestRelease,
 			},
 		},
+		revalidate: 3600,
 	}
 }
 
