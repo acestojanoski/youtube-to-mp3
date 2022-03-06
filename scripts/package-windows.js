@@ -11,5 +11,5 @@ package({
 	arch: 'x64',
 	prune: true,
 	out: 'release_builds',
-	ignore: [/website/],
+	ignore: [/(website|media|release_builds|scripts)/],
 })

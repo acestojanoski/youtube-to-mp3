@@ -1,16 +1,16 @@
 import type { GetStaticProps, NextPage } from 'next'
-import Image from 'next/image'
+import Link from 'next/link'
 import useSWR, { SWRConfig } from 'swr'
+import AspectRatio from '../components/AspectRatio'
+import Disclaimer from '../components/Disclaimer'
+import Download from '../components/Download'
 import DownloadIcon from '../components/DownloadIcon'
+import Header from '../components/Header'
 import PageMetadata from '../components/PageMetadata'
-
-const getLatestRelease = async () => {
-	const response = await fetch(
-		'https://api.github.com/repos/acestojanoski/youtube-to-mp3/releases/latest'
-	)
-
-	return response.json()
-}
+import useLatestRelease, {
+	getLatestRelease,
+	LatestRelease,
+} from '../hooks/use-latest-release'
 
 export const getStaticProps: GetStaticProps = async () => {
 	const latestRelease = await getLatestRelease()
@@ -24,10 +24,6 @@ export const getStaticProps: GetStaticProps = async () => {
 	}
 }
 
-interface LatestRelease {
-	tag_name: string
-}
-
 interface HomeProps {
 	fallback: {
 		latestRelease: LatestRelease
@@ -35,96 +31,55 @@ interface HomeProps {
 }
 
 const Home: NextPage<HomeProps> = ({ fallback }) => {
-	const { data: latestRelease } = useSWR<LatestRelease>(
-		'latestRelease',
-		getLatestRelease
-	)
+	const { data: latestRelease } = useLatestRelease()
 
 	return (
 		<SWRConfig value={{ fallback }}>
 			<PageMetadata
 				title="Youtube to mp3"
-				description="Youtube to mp3 converter"
+				description="Youtube to mp3 converter. This program should only be used on non-copyrighted material."
 			/>
 			<div className="container">
+				<Header />
 				<main>
-					<h1>YouTube to mp3</h1>
-					<div className="screenshot-wrapper">
-						<Image src="/screenshot.png" layout="fill" alt="Screenshot" />
-					</div>
-					<h2>Download</h2>
-					<table>
-						<tbody>
-							<tr>
-								<td className="invisible" />
-								<td className="center">x64</td>
-							</tr>
-							<tr>
-								<td>Windows</td>
-								<td className="center">
-									<a
-										download
-										href={`https://github.com/acestojanoski/youtube-to-mp3/releases/download/${latestRelease?.tag_name}/Youtube to mp3-win32-x64.zip`}
-									>
-										<span className="download-icon-wrapper">
-											<DownloadIcon />
-										</span>
-										{latestRelease?.tag_name}
-									</a>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+					<section className="video-section">
+						<AspectRatio aspectRatio={714 / 992}>
+							<video autoPlay loop muted controls={false}>
+								<source src="/video.mp4" type="video/mp4" />
+							</video>
+						</AspectRatio>
+					</section>
+					<Download latestRelease={latestRelease} />
+					<Disclaimer />
 				</main>
 				<style jsx>{`
 					.container {
 						max-width: 900px;
 						margin: 0 auto;
-						padding: 0 1rem;
+						padding: 1rem;
 					}
 
-					h1,
-					h2 {
-						text-align: center;
-						font-weight: 400;
-						margin-top: 4rem;
+					main {
+						display: flex;
+						flex-direction: column;
+						align-items: center;
 					}
 
-					table {
-						width: 100%;
-						border-collapse: collapse;
-						margin: 3rem 0;
-						table-layout: fixed;
-					}
-
-					td {
-						vertical-align: top;
-						border: 1px solid #444;
-						position: relative;
-						word-break: break-word;
-						padding: 0.5rem;
-					}
-
-					td.invisible {
-						border-top: 0;
-						border-left: 0;
-					}
-
-					td.center {
-						text-align: center;
-					}
-
-					.download-icon-wrapper {
-						margin-right: 0.5rem;
-					}
-
-					.screenshot-wrapper {
-						margin: 3rem 0;
+					.video-section {
 						border: 1px solid #000000;
-						position: relative;
 						width: 100%;
-						height: 0;
-						padding-top: calc((${291 / 991}) * 100%);
+					}
+
+					video {
+						position: absolute;
+						top: 0;
+						left: 0;
+						width: 100%;
+						height: 100%;
+						min-width: 100%;
+						max-width: 100%;
+						min-height: 100%;
+						max-height: 100%;
 					}
 				`}</style>
 			</div>
