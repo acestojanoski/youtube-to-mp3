@@ -1,10 +1,8 @@
 import type { GetStaticProps, NextPage } from 'next'
-import Link from 'next/link'
-import useSWR, { SWRConfig } from 'swr'
+import { SWRConfig } from 'swr'
 import AspectRatio from '../components/AspectRatio'
 import Disclaimer from '../components/Disclaimer'
 import Download from '../components/Download'
-import DownloadIcon from '../components/DownloadIcon'
 import Header from '../components/Header'
 import PageMetadata from '../components/PageMetadata'
 import useLatestRelease, {
