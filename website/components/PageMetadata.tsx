@@ -21,7 +21,7 @@ const PageMetadata: FunctionComponent<PageMetadataProps> = ({
 			<meta property="og:description" content={description} />
 
 			{/* URL */}
-			<meta property="og:url" content="https://youtube-to-mp3.vercel.app" />
+			<meta property="og:url" content="https://youtubetomp3.vercel.app/" />
 
 			{/* General */}
 			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
